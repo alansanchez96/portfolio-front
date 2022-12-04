@@ -10,32 +10,25 @@
             <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
                 <div class="col-lg-6">
 
-                    <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                    <form id="contactForm">
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="name" type="text" placeholder="Enter your name..."
-                                data-sb-validations="required" />
+                            <input class="form-control" id="name" type="text" placeholder="Enter your name..." />
                             <label for="name">Nombre Completo</label>
-                            <div class="invalid-feedback" data-sb-feedback="name:required">El nombre completo es
-                                requerido</div>
+                            <div class="invalid-feedback">El nombre completo es requerido</div>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="email" type="email" placeholder="name@example.com"
-                                data-sb-validations="required,email" />
+                            <input class="form-control" id="email" type="email" placeholder="name@example.com" />
                             <label for="email">Email</label>
-                            <div class="invalid-feedback" data-sb-feedback="email:required">El Email es requerido</div>
-                            <div class="invalid-feedback" data-sb-feedback="email:email">El Email ingresado no es válido
-                            </div>
+                            <div class="invalid-feedback">El Email es requerido</div>
+                            <div class="invalid-feedback">El Email ingresado no es válido</div>
                         </div>
 
                         <div class="form-floating mb-3">
                             <textarea class="form-control" id="message" type="text"
-                                placeholder="Enter your message here..." style="height: 10rem"
-                                data-sb-validations="required"></textarea>
+                                placeholder="Enter your message here..." style="height: 10rem"></textarea>
                             <label for="message">Mensaje</label>
-                            <div class="invalid-feedback" data-sb-feedback="message:required">El mensaje no puede
-                                enviarse vacío
-                            </div>
+                            <div class="invalid-feedback">El mensaje no puedeenviarse vacío</div>
                         </div>
 
                         <div class="d-none" id="submitSuccessMessage">
@@ -51,7 +44,7 @@
                             <div class="text-center text-danger mb-3">Error sending message!</div>
                         </div>
 
-                        <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton"
+                        <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton"
                                 type="submit">Submit</button></div>
                     </form>
                 </div>

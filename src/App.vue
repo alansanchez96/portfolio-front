@@ -1,14 +1,28 @@
 <template>
-  <Portfolio />
+  <div v-if="$route.path == '/'">
+    <Portfolio />
+  </div>
+  <div v-else-if="$route.path == '/login'">
+    <Login />
+  </div>
+  <div v-else>
+    <NotFound />
+  </div>
 </template>
 
 <script>
-import Portfolio from './router/Portfolio.vue'
+import Login from './router/routes/Login.vue';
+import Portfolio from './router/routes/Portfolio.vue'
+import NotFound from './router/routes/NotFound.vue'
+
+import './assets/js/scripts';
 
 export default {
   name: 'App',
   components: {
-    Portfolio
+    Portfolio,
+    Login,
+    NotFound
   }
 }
 </script>
