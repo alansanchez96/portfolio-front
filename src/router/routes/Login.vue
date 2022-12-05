@@ -133,6 +133,7 @@ export default {
 
     .masthead {
         height: 100vh;
+        padding-top: 0;
         overflow-y: hidden;
     }
 }

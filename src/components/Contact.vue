@@ -56,7 +56,7 @@
             <div class="row gx-4 mt-5 gx-lg-5 justify-content-center">
                 <div class="col-lg-4 text-center mb-5 mb-lg-0 w-75">
                     <h3>Puedes encontarme en</h3>
-                    <div class="mt-3 w-50 mx-auto d-flex flex-column flex-sm-row justify-content-around">
+                    <div class="mt-5 w-50 mx-auto d-flex flex-column flex-sm-row justify-content-around gap-4">
                         <a href="https://fb.com/alaansannchezz" target="_blank">
                             <i class='bx bxl-facebook bx-2'> </i>
                         </a>
