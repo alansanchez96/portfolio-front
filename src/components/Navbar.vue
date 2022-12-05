@@ -7,11 +7,29 @@
                 aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div v-if="$route.path == '/'" class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#about">Sobre Mi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Conocimientos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#portfolio">Portafolio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
-                    <li class="nav-item"><router-link class="nav-link" :to="{ name: 'Login' }">Login</router-link></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Sobre Mi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Conocimientos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Portafolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <router-link v-if="!$store.state.isAuth" class="nav-link"
+                            :to="{ name: 'Login' }">Login</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" v-if="$store.state.isAuth" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" v-if="$store.state.isAuth" class="nav-link"
+                            @click="$store.commit('logout')">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
