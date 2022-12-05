@@ -1,5 +1,5 @@
 <template>
-    <div class="masthead lg:vh-100">
+    <div class="masthead">
 
         <Navbar />
         <section class="d-flex justify-content-between align-items-center">
@@ -124,6 +124,7 @@ export default {
 <style scoped>
 .bg-login {
     padding: 60px;
+    margin-top: 100px;
     position: relative;
     background-color: #27272793;
 }
@@ -132,6 +133,7 @@ export default {
 
     .masthead {
         height: 100vh;
+        overflow-y: hidden;
     }
 }
 </style>
