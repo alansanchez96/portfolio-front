@@ -103,6 +103,8 @@ export default {
                         this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
 
                         localStorage.setItem('access_token', response.data.access_token);
+                        this.$store.commit('setAuthenticated', true);
+
                         this.$router.push('/');
 
                     }
