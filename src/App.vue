@@ -2,7 +2,7 @@
   <div v-if="$route.path == '/'">
     <Portfolio />
   </div>
-  <div v-else-if="$route.path == '/login'">
+  <div v-else-if="($route.path == '/login' && !$store.state.isAuth)">
     <Login />
   </div>
   <div v-else>

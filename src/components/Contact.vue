@@ -6,24 +6,32 @@
                     <h2 class="mt-0">¡Mantengamosnos en contacto!</h2>
                     <hr class="divider" />
                 </div>
+                <div class="divider" v-for="(errorName, i) in errorsName" v-bind:key="errorName">
+                    <p class="fw-bold mx-3 mb-0 text-center text-danger">{{ errorName }}</p>
+                </div>
+                <div class="divider" v-for="(errorEmail, i) in errorsEmail" v-bind:key="errorEmail">
+                    <p class="fw-bold mx-3 mb-0 text-center text-danger">{{ errorEmail }}</p>
+                </div>
+                <div class="divider" v-for="(errorMessage, i) in errorsMessage" v-bind:key="errorMessage">
+                    <p class="fw-bold mx-3 mb-0 text-center text-danger">{{ errorMessage }}</p>
+                </div>
+
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
                 <div class="col-lg-6">
 
                     <form @submit.prevent="submitMessage">
+
                         <div class="form-floating mb-3">
                             <input class="form-control" id="name" type="text" placeholder="Enter your name..."
                                 v-model="name" @keyup="validatedInput" />
                             <label for="name">Nombre Completo</label>
-                            <div class="invalid-feedback">El nombre completo es requerido</div>
                         </div>
 
                         <div class="form-floating mb-3">
                             <input class="form-control" id="email" type="email" placeholder="name@example.com"
                                 v-model="email" @keyup="validatedInput" />
                             <label for="email">Email</label>
-                            <div class="invalid-feedback">El Email es requerido</div>
-                            <div class="invalid-feedback">El Email ingresado no es válido</div>
                         </div>
 
                         <div class="form-floating mb-3">
@@ -31,7 +39,6 @@
                                 placeholder="Enter your message here..." style="height: 10rem" v-model="textarea"
                                 @keyup="validatedInput"></textarea>
                             <label for="textarea">Mensaje</label>
-                            <div class="invalid-feedback">El mensaje no puedeenviarse vacío</div>
                         </div>
 
                         <div v-show="!submited">
@@ -42,12 +49,9 @@
                                     mensaje, puedes revisar mi perfil en GitHub :)</a>
                             </div>
                         </div>
+                        <div class="spinner" v-show="isLoading"></div>
 
-                        <div class="d-none" id="submitErrorMessage">
-                            <div class="text-center text-danger mb-3">Error sending message!</div>
-                        </div>
-
-                        <div v-show="submited">
+                        <div v-show="(submited && !isLoading)">
                             <button class="btn btn-primary btn-xl w-100" :class="{ disabled }">Submit</button>
                         </div>
                     </form>
@@ -82,7 +86,11 @@ export default {
             'email': '',
             'textarea': '',
             'disabled': true,
-            'submited': true
+            'submited': true,
+            'isLoading': false,
+            'errorsName': [],
+            'errorsEmail': [],
+            'errorsMessage': [],
         }
     },
     methods: {
@@ -90,19 +98,33 @@ export default {
             const data = {
                 'name': this.name,
                 'email': this.email,
-                'textarea': this.textarea,
+                'message': this.textarea,
             }
 
             await this.axios.post('/api/contact/message', data)
                 .then(
                     response => {
                         console.log(response);
-                        this.submited = false;
+
+                        this.isLoading = true;
+
+                        if (response.data.status === 1) {
+                            this.submited = false;
+                            this.isLoading = false;
+                        }
                     }
                 )
                 .catch(
                     error => {
-                        console.log(error);
+                        this.errorsName = error.response.data.errors.name;
+                        this.errorsEmail = error.response.data.errors.email;
+                        this.errorsMessage = error.response.data.errors.message;
+
+                        setTimeout(() => {
+                            this.errorsName = [];
+                            this.errorsEmail = [];
+                            this.errorsMessage = [];
+                        }, 4500);
                     }
                 )
         }
@@ -127,6 +149,15 @@ export default {
 .btn-primary {
     border-color: #007eb3;
     color: #007eb3;
+}
+
+.spinner:before {
+    border-top-color: #007eb3;
+}
+
+.spinner:after {
+    border-top-color: #003d58;
+    animation-delay: 0.3s;
 }
 
 .btn-primary:hover {
