@@ -13,14 +13,16 @@
                         <form @submit.prevent="login">
 
                             <div class="divider d-flex align-items-center my-4">
-                                <h4 class="text-center fw-bold mx-3 mb-0 text-white">Sing Up</h4>
+                                <h4 class="text-center fw-bold mx-3 mb-0 text-white">Log In</h4>
                             </div>
                             <div class="divider d-flex align-items-center my-4">
                                 <p class="fw-bold mx-3 mb-0 text-danger">{{ message }}</p>
                             </div>
-                            <div class="divider my-4" v-for="(error) in errors">
-                                <p class="fw-bold mx-3 mb-0 text-danger">{{ error[0] }}</p>
-                                <p class="fw-bold mx-3 mb-0 text-danger">{{ error[1] }}</p>
+                            <div class="divider my-4" v-for="(errorEmail) in errorsEmail" v-bind:key="errorEmail">
+                                <p class="fw-bold mx-3 mb-0 text-danger">{{ errorEmail }}</p>
+                            </div>
+                            <div class="divider my-4" v-for="(errorPassword) in errorsPassword" v-bind:key="errorPassword">
+                                <p class="fw-bold mx-3 mb-0 text-danger">{{ errorPassword }}</p>
                             </div>
 
                             <!-- Email input -->
@@ -77,7 +79,8 @@ export default {
             'email': '',
             'password': '',
             'message': '',
-            'errors': {},
+            'errorsEmail': [],
+            'errorsMessage': [],
             'isLoading': false
         }
     },
@@ -111,9 +114,11 @@ export default {
                 )
                 .catch(
                     error => {
-                        this.errors = error.response.data.errors
+                        this.errorsEmail = error.response.data.errors.email;
+                        this.errorsPassword = error.response.data.errors.password;
                         setTimeout(() => {
-                            this.errors = [];
+                            this.errorsEmail = [];
+                            this.errorsPassword = [];
                         }, 3000);
                     }
                 );
