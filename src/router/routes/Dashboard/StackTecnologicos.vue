@@ -1,7 +1,7 @@
 <template>
     <h2 class="text-white my-3">Stack Tecnologicos</h2>
 
-    <button @click="openModal" class="btn btn-primary mb-3">
+    <button @click="openModalForm" class="btn btn-primary mb-3">
         Añadir nueva tecnologia
     </button>
 
@@ -24,10 +24,10 @@
                 <td>
                     <ul class="nav">
                         <li class="nav-item">
-                            <a href="#" @click.prevent="openModal(stack.id, index, $event)">Editar</a>
+                            <a href="#" @click.prevent="openModalForm(index)">Editar</a>
                         </li>
                         <li class="nav-item px-2">
-                            <a href="#" @click.prevent="destroyStack(stack.id)">Eliminar</a>
+                            <a href="#" @click="openModalDelete(stack.id)">Eliminar</a>
                         </li>
                     </ul>
                 </td>
@@ -35,17 +35,16 @@
         </tbody>
     </table>
 
-    <!-- Modal -->
-    <!-- d-none y d-block -->
-    <div class="modal fade" :class="active" v-show="modalActive" @click.self="closeModal">
+    <!-- Modal Form -->
+    <div class="modal fade" :class="activeForm" v-show="modalActiveForm" @click.self="closeModalForm">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Añadir nueva tecnologia</h5>
-                    <button type="button" class="btn-close" @click="closeModal"></button>
+                    <button type="button" class="btn-close" @click="closeModalForm"></button>
                 </div>
                 <div class="modal-body">
-                    <form enctype="multipart/form-data" @submit.prevent="createStack">
+                    <form enctype="multipart/form-data" @submit.prevent="submitStak">
                         <div class="col-auto">
                             <p class="fw-bold mb-0 text-success">{{ messageSuccess }}</p>
                             <p class="fw-bold mb-0 text-danger">{{ messageError }}</p>
@@ -93,7 +92,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="closeModal">Cerrar</button>
+                            <button type="button" class="btn btn-secondary" @click="closeModalForm">Cerrar</button>
                             <button type="submit" class="btn btn-success">
                                 {{ (id === null ? 'Crear' : 'Actualizar') }}
                             </button>
@@ -104,16 +103,39 @@
         </div>
     </div>
 
+    <!-- Modal confirm delete -->
+    <div class="modal fade" :class="activeDelete" v-show="modalActiveDelete" @click.self="closeModalDelete"
+        style="margin-top: 50px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">¿Desea eliminar el stack seleccionado?</h5>
+                    <button type="button" class="btn-close" @click.self="closeModalDelete"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @click.self="closeModalDelete">Cerrar</button>
+                    <button type="button" class="btn btn-danger" @click.prevent="destroyStack(id)">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </template>
 
 <script>
+
 export default {
     name: 'StackTecnologicos',
     data() {
         return {
-            'modalActive': false,
-            active: {
+            'modalActiveForm': false,
+            activeForm: {
+                'd-block': false,
+                'show': false
+            },
+            'modalActiveDelete': false,
+            activeDelete: {
                 'd-block': false,
                 'show': false
             },
@@ -144,14 +166,14 @@ export default {
                 }
             )
             .catch(
-                error => console.log(error.response)
+                error => console.log('Ocurrio un error')
             )
     },
     methods: {
-        openModal(id, index) {
-            this.active['d-block'] = true;
-            this.active.show = true;
-            this.modalActive = true;
+        openModalForm(index = null) {
+            this.activeForm['d-block'] = true;
+            this.activeForm.show = true;
+            this.modalActiveForm = true;
 
             if (index === 0) {
                 const stack = this.stacks[index];
@@ -159,10 +181,12 @@ export default {
                 this.id = stack.id;
                 this.name = stack.name;
                 this.state = stack.state;
+                this.image = stack.image;
             } else if (!index) {
                 this.id = null;
                 this.name = null;
                 this.state = null;
+                this.image = null;
             }
             else {
                 const stack = this.stacks[index];
@@ -170,12 +194,33 @@ export default {
                 this.id = stack.id;
                 this.name = stack.name;
                 this.state = stack.state;
+                this.image = stack.image;
             }
         },
-        closeModal() {
-            this.active['d-block'] = false;
-            this.active.show = false;
-            this.modalActive = false;
+        openModalDelete(id) {
+            this.activeDelete['d-block'] = true;
+            this.activeDelete.show = true;
+            this.modalActiveDelete = true;
+
+            this.id = id;
+        },
+        closeModalForm() {
+            this.activeForm['d-block'] = false;
+            this.activeForm.show = false;
+            this.modalActiveForm = false;
+
+            this.id = null;
+            this.name = null;
+            this.state = null;
+            this.image = [];
+            this.imageMini = null;
+        },
+        closeModalDelete() {
+            this.activeDelete['d-block'] = false;
+            this.activeDelete.show = false;
+            this.modalActiveDelete = false;
+
+            this.id = null;
         },
         fetchImage(e) {
             this.image = e.target.files[0];
@@ -190,7 +235,7 @@ export default {
 
             reader.readAsDataURL(file);
         },
-        async createStack() {
+        async submitStak() {
             const formData = new FormData();
 
             formData.append('name', this.name);
@@ -205,7 +250,10 @@ export default {
                                 this.messageSuccess = response.data.message;
                                 setTimeout(() => {
                                     this.messageSuccess = null;
+                                    this.closeModalForm();
                                 }, 3500);
+                                setTimeout(() => {
+                                }, 3600);
                             } else {
                                 this.messageError = response.data.message;
                                 setTimeout(() => {
@@ -227,23 +275,60 @@ export default {
                         }
                     )
             } else {
-                await this.axios.put('/api/stacks-tecnologicos/update/' + this.id, formData)
+                await this.axios.post('/api/stacks-tecnologicos/update/' + this.id, formData)
                     .then(
-                        response => console.log(response)
-                    )
-                    .catch(
-                        error => console.log(error.response)
+                        response => {
+                            if (response.data.status === 1) {
+                                this.messageSuccess = response.data.message;
+                                setTimeout(() => {
+                                    this.messageSuccess = null;
+                                    this.closeModalForm();
+                                }, 3500);
+                            } else {
+                                this.messageError = response.data.message;
+                                setTimeout(() => {
+                                    this.messageError = null;
+                                }, 3500);
+                            }
+                        }
                     )
             }
+
+
+            this.axios.get('/api/stacks-tecnologicos/')
+                .then(
+                    response => {
+                        this.stacks = response.data;
+                    }
+                )
+                .catch(
+                    error => console.log('Ocurrio un error')
+                )
+
 
         },
         async destroyStack(id) {
             await this.axios.delete('/api/stacks-tecnologicos/delete/' + id)
                 .then(
-                    response => console.log(response)
+                    response => {
+                        this.id = null;
+                    }
                 )
                 .catch(
-                    error => console.log(error.response)
+                    error => console.log('Ocurrio un error')
+                )
+            this.activeDelete['d-block'] = false;
+            this.activeDelete.show = false;
+            this.modalActiveDelete = false;
+
+            this.axios.get('/api/stacks-tecnologicos/')
+                .then(
+                    response => {
+                        this.stacks = response.data;
+                    }
+                )
+                .catch(
+                    error => console.log('Ocurrio un error')
                 )
         }
     },
