@@ -1,4 +1,5 @@
 <template>
+    <Navbar />
     <div class="bg-dashboard">
         <div class="container">
             <div class="row d-flex w-100 mx-auto justify-content-center align-items-center">
