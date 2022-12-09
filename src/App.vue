@@ -5,6 +5,9 @@
   <div v-else-if="($route.path == '/login' && !$store.state.isAuth)">
     <Login />
   </div>
+  <div v-else-if="($route.path == '/dashboard' && $store.state.isAuth)">
+    <Dashboard />
+  </div>
   <div v-else>
     <NotFound />
   </div>
@@ -14,6 +17,7 @@
 import Login from './router/routes/Login.vue';
 import Portfolio from './router/routes/Portfolio.vue'
 import NotFound from './router/routes/NotFound.vue'
+import Dashboard from './router/routes/Dashboard.vue'
 
 import './assets/js/scripts';
 
@@ -22,7 +26,8 @@ export default {
   components: {
     Portfolio,
     Login,
-    NotFound
+    NotFound,
+    Dashboard
   }
 }
 </script>
