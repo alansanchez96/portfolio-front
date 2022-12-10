@@ -30,8 +30,6 @@ export default {
         return {
             'url': 'https://api-portfolio-alansan.up.railway.app/',
             'stacks': [],
-            'stateProceso': 'En Proceso',
-            'stateDominado': 'Dominado',
         }
     },
     async mounted() {

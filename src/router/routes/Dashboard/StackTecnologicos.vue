@@ -23,11 +23,13 @@
                 <td><img :src="(url + stack.image)" width="50" height="50" alt=""></td>
                 <td>
                     <ul class="nav">
-                        <li class="nav-item">
-                            <a href="#" @click.prevent="openModalForm(index)">Editar</a>
+                        <li class="nav-item my-1 mx-1">
+                            <button type="button" class="btn btn-warning"
+                                @click.prevent="openModalForm(index)">Editar</button>
                         </li>
-                        <li class="nav-item px-2">
-                            <a href="#" @click="openModalDelete(stack.id)">Eliminar</a>
+                        <li class="nav-item my-1 mx-1">
+                            <button type="button" class="btn btn-danger"
+                                @click="openModalDelete(stack.id)">Eliminar</button>
                         </li>
                     </ul>
                 </td>
@@ -110,10 +112,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">¿Desea eliminar el stack seleccionado?</h5>
-                    <button type="button" class="btn-close" @click.self="closeModalDelete"></button>
+                    <button type="button" class="btn-close" @click="closeModalDelete"></button>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @click.self="closeModalDelete">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" @click="closeModalDelete">Cerrar</button>
                     <button type="button" class="btn btn-danger" @click.prevent="destroyStack(id)">Eliminar</button>
                 </div>
             </div>
@@ -160,14 +162,8 @@ export default {
     },
     async mounted() {
         await this.axios.get('/api/stacks-tecnologicos/')
-            .then(
-                response => {
-                    this.stacks = response.data;
-                }
-            )
-            .catch(
-                error => console.log('Ocurrio un error')
-            )
+            .then(response => this.stacks = response.data)
+            .catch(() => console.log('Ocurrio un error'));
     },
     methods: {
         openModalForm(index = null) {
@@ -243,7 +239,7 @@ export default {
             formData.append('image', this.image);
 
             if (this.id === null || 0) {
-                await this.axios.post('/api/stacks-tecnologicos/', formData)
+                await this.axios.post('/api/stacks-tecnologicos/create', formData)
                     .then(
                         response => {
                             if (response.data.status === 1) {
@@ -296,40 +292,23 @@ export default {
 
 
             this.axios.get('/api/stacks-tecnologicos/')
-                .then(
-                    response => {
-                        this.stacks = response.data;
-                    }
-                )
-                .catch(
-                    error => console.log('Ocurrio un error')
-                )
+                .then(response => this.stacks = response.data)
+                .catch(() => console.log('Ocurrio un error'));
 
 
         },
         async destroyStack(id) {
             await this.axios.delete('/api/stacks-tecnologicos/delete/' + id)
-                .then(
-                    response => {
-                        this.id = null;
-                    }
-                )
-                .catch(
-                    error => console.log('Ocurrio un error')
-                )
+                .then(() => this.id = null)
+                .catch(() => console.log('Ocurrio un error'));
+
             this.activeDelete['d-block'] = false;
             this.activeDelete.show = false;
             this.modalActiveDelete = false;
 
             this.axios.get('/api/stacks-tecnologicos/')
-                .then(
-                    response => {
-                        this.stacks = response.data;
-                    }
-                )
-                .catch(
-                    error => console.log('Ocurrio un error')
-                )
+                .then(response => this.stacks = response.data)
+                .catch(() => console.log('Ocurrio un error'));
         }
     },
     computed: {

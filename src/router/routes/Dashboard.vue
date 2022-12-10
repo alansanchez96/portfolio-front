@@ -71,7 +71,7 @@ export default {
 .bg-dashboard {
     padding-top: 90px;
     background-color: #262525;
-    height: 100vh;
+    height: 1400px;
 }
 
 h1 {
@@ -81,5 +81,12 @@ h1 {
 .btn-primary {
     border-color: #007eb3;
     color: #007eb3;
+}
+
+.nav-link{
+    color: rgb(191, 191, 191);
+}
+.nav-link:hover{
+    color: antiquewhite;
 }
 </style>

@@ -4577,9 +4577,10 @@ fieldset:disabled .btn {
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-  color: #495057;
-  background-color: #fff;
+  color: #005a80;
+  background-color: rgb(205, 205, 205);
   border-color: #dee2e6 #dee2e6 #fff;
+  font-weight: 700;
 }
 
 .nav-tabs .dropdown-menu {
