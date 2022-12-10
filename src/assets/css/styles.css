@@ -657,6 +657,9 @@ progress {
 .img-fluid {
   max-width: 100%;
   height: auto;
+  margin: auto;
+  background-size: cover;
+  background-position: center center;
 }
 
 .img-thumbnail {
@@ -4577,9 +4580,10 @@ fieldset:disabled .btn {
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-  color: #495057;
-  background-color: #fff;
+  color: #005a80;
+  background-color: rgb(205, 205, 205);
   border-color: #dee2e6 #dee2e6 #fff;
+  font-weight: 700;
 }
 
 .nav-tabs .dropdown-menu {
@@ -12563,12 +12567,13 @@ header.masthead .h1 {
 
 .card__img img {
   flex: 0 0 100%;
-  width: 100%;
+  width: auto;
   object-fit: cover;
   margin: auto;
   scroll-snap-align: center;
   transition: all .3s;
   border-style: none;
+  height: 62px;
 }
 
 .card__conocimiento {

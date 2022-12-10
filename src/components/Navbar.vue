@@ -24,7 +24,8 @@
                             :to="{ name: 'Login' }">Login</router-link>
                     </li>
                     <li class="nav-item">
-                        <a href="#" v-if="$store.state.isAuth" class="nav-link">Dashboard</a>
+                        <router-link v-if="$store.state.isAuth" class="nav-link"
+                            :to="{ name: 'Dashboard' }">Dashboard</router-link>
                     </li>
                     <li class="nav-item">
                         <a href="#" v-if="$store.state.isAuth" class="nav-link"
