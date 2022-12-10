@@ -7,7 +7,7 @@
                     <hr class="divider" />
                 </div>
                 <div class="col-lg-8 align-self-baseline">
-                    <p class="text-white-75 mb-5">Sientente cómodo en mi website, podrás conocerme un poco más, ver mis
+                    <p class="text-white-75 mb-5">Sientente cómodo en mi website. Aqui podrás conocerme un poco más, ver mis
                         proyectos y estar en contacto directo conmigo!</p>
                     <a class="btn btn-primary btn-xl" href="#about">Conocer más</a>
                 </div>

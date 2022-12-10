@@ -12567,13 +12567,13 @@ header.masthead .h1 {
 
 .card__img img {
   flex: 0 0 100%;
-  width: 100%;
+  width: auto;
   object-fit: cover;
   margin: auto;
   scroll-snap-align: center;
   transition: all .3s;
   border-style: none;
-  height: 80px;
+  height: 62px;
 }
 
 .card__conocimiento {
