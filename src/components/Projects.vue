@@ -2,14 +2,16 @@
     <div id="portfolio">
         <div class="container-fluid bg-dark p-0">
             <div class="row g-0">
-
+                <p class="text-danger fw-bold text-center mt-5" v-show="errorServer">Ocurrio un error con el servidor
+                </p>
                 <div class="col-lg-4 col-sm-6 p-3 d-flex align-items-center justify-content-center"
-                    v-for="(project, index) in projects" :key="project">
-                    <a class="portfolio-box" href="#" @click.prevent="openModal(index)" :title="project.title">
-                        <img class="img-fluid" :src="(urlAPI + project.image)" alt="" />
+                    v-for="(project, index) in projects" :key="project" v-show="showProjects">
+                    <a class="portfolio-box" href="#" @click.prevent="openModal(index)"
+                        :title="project.attributes.title">
+                        <img class="img-fluid" :src="(urlAPI + project.attributes.image)" alt="" />
                         <div class="portfolio-box-caption">
                             <div class="project-category text-white-50">Click para ver más detalles</div>
-                            <div class="project-name">{{ project.title }}</div>
+                            <div class="project-name">{{ project.attributes.title }}</div>
                         </div>
                     </a>
                 </div>
@@ -40,7 +42,7 @@ export default {
     name: 'Projects',
     data() {
         return {
-            'urlAPI': 'https://api-portfolio-alansan.up.railway.app/',
+            'urlAPI': 'http://127.0.0.1:8000/',
             'projects': [],
             'viewModal': false,
             activeModal: {
@@ -49,16 +51,21 @@ export default {
             },
             'index': -1,
             'id': null,
-            'title': null,
-            'description': null,
-            'image': null,
-            'url': null,
+            'title': '',
+            'description': '',
+            'image': '',
+            'url': '',
+            'showProjects': true,
+            'errorServer': false
         }
     },
     async mounted() {
         await this.axios.get('/api/projects')
-            .then(response => this.projects = response.data)
-            .catch(() => console.log('Ocurrio un error'));
+            .then(response => this.projects = response.data.data)
+            .catch(() => {
+                this.showProjects = false;
+                this.errorServer = true;
+            });
     },
     methods: {
         openModal(index) {
@@ -72,10 +79,10 @@ export default {
             const project = this.projects[index];
             this.index = index;
             this.id = project.id;
-            this.title = project.title;
-            this.description = project.description;
-            this.image = project.image;
-            this.url = project.url;
+            this.title = project.attributes.title;
+            this.description = project.attributes.description;
+            this.image = project.attributes.image;
+            this.url = project.attributes.url;
         },
         closeModal() {
             this.activeModal['d-block'] = false;

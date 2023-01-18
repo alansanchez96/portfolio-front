@@ -7,7 +7,7 @@
 
                 <!-- Tabs navs -->
                 <ul class="nav nav-tabs my-3">
-                    <li class="nav-item" v-for="(tab, i) in tabNames">
+                    <li class="nav-item" v-for="(tab, i) in tabNames" :key="tab" style="cursor:pointer;">
                         <a class="nav-link" @click="showContent(tab, i)" :class="{ 'active': activeTabName === tab }">
                             {{ tab }}
                         </a>
@@ -32,13 +32,17 @@
 import Navbar from '@/components/Navbar.vue';
 import StackTecnologicosVue from './Dashboard/StackTecnologicos.vue';
 import ProyectosVue from './Dashboard/Proyectos.vue';
+import MensajesVue from './Dashboard/Mensajes.vue';
+import InformationVue from './Dashboard/Information.vue';
 
 export default {
     name: "Dashboard",
     components: {
         Navbar,
         StackTecnologicosVue,
-        ProyectosVue
+        ProyectosVue,
+        MensajesVue,
+        InformationVue
     },
     data() {
         return {
@@ -47,6 +51,8 @@ export default {
             'tabNames': [
                 'Stack Tecnologicos',
                 'Proyectos',
+                'Mensajes',
+                'Informacion'
             ],
         }
     },
@@ -55,10 +61,19 @@ export default {
 
             this.activeTabName = tab;
 
-            if(index === 0) {
-                this.currentTab = StackTecnologicosVue
-            } else {
-                this.currentTab = ProyectosVue
+            switch (index) {
+                case 0:
+                    this.currentTab = StackTecnologicosVue
+                    break;
+                case 1:
+                    this.currentTab = ProyectosVue
+                    break;
+                case 2:
+                    this.currentTab = MensajesVue
+                    break;
+                case 3:
+                    this.currentTab = InformationVue
+                    break;
             }
 
         }
@@ -83,10 +98,11 @@ h1 {
     color: #007eb3;
 }
 
-.nav-link{
+.nav-link {
     color: rgb(191, 191, 191);
 }
-.nav-link:hover{
+
+.nav-link:hover {
     color: antiquewhite;
 }
 </style>
