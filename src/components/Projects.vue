@@ -42,7 +42,7 @@ export default {
     name: 'Projects',
     data() {
         return {
-            'urlAPI': 'http://127.0.0.1:8000/',
+            'urlAPI': 'https://portfolio-api-x38mb.ondigitalocean.app/',
             'projects': [],
             'viewModal': false,
             activeModal: {

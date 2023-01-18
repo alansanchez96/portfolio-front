@@ -31,7 +31,7 @@ export default {
     name: 'Conocimientos',
     data() {
         return {
-            'url': 'http://127.0.0.1:8000/',
+            'url': 'https://portfolio-api-x38mb.ondigitalocean.app/',
             'stacks': [],
             'showStacks': true,
             'serverError': false,

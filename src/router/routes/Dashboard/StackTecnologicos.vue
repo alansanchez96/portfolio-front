@@ -160,7 +160,7 @@ export default {
                 'Dominado'
             ],
             'image': '',
-            'url': 'http://127.0.0.1:8000/',
+            'url': 'https://portfolio-api-x38mb.ondigitalocean.app/',
             'imageMini': null,
             'messageSuccess': null,
             'messageError': null,
