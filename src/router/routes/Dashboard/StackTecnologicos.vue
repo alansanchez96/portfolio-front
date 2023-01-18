@@ -309,7 +309,7 @@ export default {
             }
 
 
-            this.axios.get('/api/stacks-tecnologicos/')
+            this.axios.get('/api/stacks-tecnologicos')
                 .then(response => this.stacks = response.data.data)
                 .catch(() => {
                     this.showStacks = false;
@@ -327,7 +327,7 @@ export default {
             this.activeDelete.show = false;
             this.modalActiveDelete = false;
 
-            this.axios.get('/api/stacks-tecnologicos/')
+            this.axios.get('/api/stacks-tecnologicos')
                 .then(response => this.stacks = response.data)
                 .catch(() => {
                     this.showStacks = false;
