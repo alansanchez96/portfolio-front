@@ -172,7 +172,7 @@ export default {
         }
     },
     async mounted() {
-        await this.axios.get('/api/stacks-tecnologicos/')
+        await this.axios.get('/api/stacks-tecnologicos')
             .then(response => this.stacks = response.data.data)
             .catch(() => {
                 this.showStacks = false;
