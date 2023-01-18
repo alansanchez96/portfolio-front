@@ -1,10 +1,17 @@
 <template>
     <h2 class="text-white my-3">Proyectos</h2>
 
-    <button @click="openModalForm" class="btn btn-primary mb-3">
+    <div class="col-auto">
+        <p class="fw-bold my-4 text-success">{{ messageSuccess }}</p>
+    </div>
+
+    <button @click="openModalForm(null)" class="btn btn-primary mb-3" v-show="showProjects">
         Añadir nuevo proyecto
     </button>
-    <table class="table table-dark">
+
+    <p class="fw-bold my-4 text-danger" v-show="errorServer">Ocurrio un error con el servidor</p>
+    
+    <table class="table table-striped table-dark" v-show="showProjects">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -18,15 +25,15 @@
         <tbody>
             <tr v-for="(project, index) in projects" :key="project">
                 <th scope="row">{{ project.id }}</th>
-                <td>{{ project.title }}</td>
-                <td>{{ project.description }}</td>
-                <td><img :src="(urlAPI + project.image)" width="50" height="50" alt=""></td>
-                <td>{{ project.url }}</td>
+                <td>{{ project.attributes.title }}</td>
+                <td>{{ project.attributes.description }}</td>
+                <td><img :src="(urlAPI + project.attributes.image)" width="50" height="50" alt=""></td>
+                <td>{{ project.attributes.url }}</td>
                 <td>
                     <ul class="nav">
                         <li class="nav-item my-1 mx-1">
                             <button type="button" class="btn btn-warning"
-                                @click.prevent="openModalForm(index)">Editar</button>
+                                @click.prevent="openModalForm(index, project.id)">Editar</button>
                         </li>
                         <li class="nav-item my-1 mx-1">
                             <button type="button" class="btn btn-danger"
@@ -42,13 +49,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Añadir nueva tecnologia</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Añadir nuevo proyecto</h5>
                     <button type="button" class="btn-close" @click="closeModalForm"></button>
                 </div>
                 <div class="modal-body">
                     <form enctype="multipart/form-data" @submit.prevent="submitProject">
+                        <!-- Errors -->
                         <div class="col-auto">
-                            <p class="fw-bold mb-0 text-success">{{ messageSuccess }}</p>
                             <p class="fw-bold mb-0 text-danger">{{ messageError }}</p>
                         </div>
                         <div class="col-auto" v-for="errorTitle in errorsTitle" :key="errorTitle">
@@ -63,6 +70,8 @@
                         <div class="col-auto" v-for="errorUrl in errorsUrl" :key="errorUrl">
                             <p class="fw-bold mb-0 text-danger">{{ errorUrl }}</p>
                         </div>
+
+                        <!-- Inputs -->
                         <div class="row g-3 align-items-center">
                             <div class="col-auto">
                                 <label for="title" class="col-form-label">Titulo del proyecto</label>
@@ -150,10 +159,10 @@ export default {
             },
             'index': -1,
             'id': null,
-            'title': null,
-            'description': null,
-            'image': null,
-            'url': null,
+            'title': '',
+            'description': '',
+            'image': '',
+            'url': '',
             'imageMini': null,
             'messageSuccess': null,
             'messageError': null,
@@ -161,43 +170,38 @@ export default {
             'errorsDescription': [],
             'errorsImage': [],
             'errorsUrl': [],
-            'urlAPI': 'https://api-portfolio-alansan.up.railway.app/',
+            'urlAPI': 'http://127.0.0.1:8000/',
+            'errorServer': false,
+            'showProjects': true,
         }
     },
     async mounted() {
         await this.axios.get('/api/projects')
-            .then(response => this.projects = response.data)
-            .catch(() => console.log('Ocurrio un error'));
+            .then(response => this.projects = response.data.data)
+            .catch(() => {
+                this.showProjects = false;
+                this.errorServer = true;
+            });
     },
     methods: {
-        openModalForm(index = null) {
+        openModalForm(index = null, id = null) {
             this.activeForm['d-block'] = true;
             this.activeForm.show = true;
             this.modalActiveForm = true;
 
-            if (index === 0) {
-                const project = this.projects[index];
-                this.index = index;
-                this.id = project.id;
-                this.title = project.title;
-                this.description = project.description;
-                this.image = project.image;
-                this.url = project.url;
-            } else if (!index) {
+            if (index === null) {
                 this.id = null;
-                this.title = null;
-                this.description = null;
-                this.image = null;
-                this.url = null;
-            }
-            else {
+                this.title = '';
+                this.description = '';
+                this.image = '';
+                this.url = '';
+            } else {
                 const project = this.projects[index];
-                this.index = index;
-                this.id = project.id;
-                this.title = project.title;
-                this.description = project.description;
-                this.image = project.image;
-                this.url = project.url;
+                this.id = id;
+                this.title = project.attributes.title;
+                this.description = project.attributes.description;
+                this.image = project.attributes.image;
+                this.url = project.attributes.url;
             }
         },
         openModalDelete(id) {
@@ -213,11 +217,11 @@ export default {
             this.modalActiveForm = false;
 
             this.id = null;
-            this.title = null;
-            this.description = null;
-            this.image = null;
-            this.url = null;
-            this.imageMini = null;
+            this.title = '';
+            this.description = '';
+            this.image = '';
+            this.url = '';
+            this.imageMini = '';
         },
         closeModalDelete() {
             this.activeDelete['d-block'] = false;
@@ -252,15 +256,15 @@ export default {
                     .then(
                         response => {
                             if (response.data.status === 1) {
+                                this.closeModalForm();
                                 this.messageSuccess = response.data.message;
                                 setTimeout(() => {
-                                    this.messageSuccess = null;
-                                    this.closeModalForm();
+                                    this.messageSuccess = '';
                                 }, 3500);
                             } else {
                                 this.messageError = response.data.message;
                                 setTimeout(() => {
-                                    this.messageError = null;
+                                    this.messageError = '';
                                 }, 3500);
                             }
                         }
@@ -284,24 +288,41 @@ export default {
                     .then(
                         response => {
                             if (response.data.status === 1) {
+                                this.closeModalForm();
                                 this.messageSuccess = response.data.message;
                                 setTimeout(() => {
-                                    this.messageSuccess = null;
-                                    this.closeModalForm();
+                                    this.messageSuccess = '';
                                 }, 3500);
                             } else {
                                 this.messageError = response.data.message;
                                 setTimeout(() => {
-                                    this.messageError = null;
+                                    this.messageError = '';
                                 }, 3500);
                             }
+                        }
+                    )
+                    .catch(
+                        error => {
+                            this.errorsTitle = error.response.data.errors.title;
+                            this.errorsDescription = error.response.data.errors.description;
+                            this.errorsImage = error.response.data.errors.image;
+                            this.errorsUrl = error.response.data.errors.url;
+                            setTimeout(() => {
+                                this.errorsTitle = [];
+                                this.errorsDescription = [];
+                                this.errorsImage = [];
+                                this.errorsUrl = [];
+                            }, 3500);
                         }
                     )
             }
 
             this.axios.get('/api/projects')
-                .then(response => this.projects = response.data)
-                .catch(() => console.log('Ocurrio un error'));
+                .then(response => this.projects = response.data.data)
+                .catch(() => {
+                    this.showProjects = false;
+                    this.errorServer = true;
+                });
         },
         async destroyProject(id) {
             await this.axios.delete('/api/projects/delete/' + id)
@@ -313,8 +334,11 @@ export default {
             this.modalActiveDelete = false;
 
             this.axios.get('/api/projects')
-                .then(response => this.projects = response.data)
-                .catch(() => console.log('Ocurrio un error'));
+                .then(response => this.projects = response.data.data)
+                .catch(() => {
+                    this.showProjects = false;
+                    this.errorServer = true;
+                });
         }
 
     },

@@ -1,11 +1,17 @@
 <template>
     <h2 class="text-white my-3">Stack Tecnologicos</h2>
 
-    <button @click="openModalForm" class="btn btn-primary mb-3">
+    <div class="col-auto">
+        <p class="fw-bold my-4 text-success">{{ messageSuccess }}</p>
+    </div>
+
+    <button @click="openModalForm(null)" class="btn btn-primary mb-3" v-show="showStacks">
         Añadir nueva tecnologia
     </button>
 
-    <table class="table table-dark">
+    <p class="fw-bold my-4 text-danger" v-show="errorServer">Ocurrio un error con el servidor</p>
+
+    <table class="table table-striped table-dark" v-show="showStacks">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -18,14 +24,14 @@
         <tbody>
             <tr v-for="(stack, index) in stacks" :key="stack">
                 <th scope="row">{{ stack.id }}</th>
-                <td>{{ stack.name }}</td>
-                <td>{{ stack.state }}</td>
-                <td><img :src="(url + stack.image)" width="50" height="50" alt=""></td>
+                <td>{{ stack.attributes.name }}</td>
+                <td>{{ stack.attributes.state }}</td>
+                <td><img :src="(url + stack.attributes.image)" width="50" height="50" alt=""></td>
                 <td>
                     <ul class="nav">
                         <li class="nav-item my-1 mx-1">
                             <button type="button" class="btn btn-warning"
-                                @click.prevent="openModalForm(index)">Editar</button>
+                                @click.prevent="openModalForm(index, stack.id)">Editar</button>
                         </li>
                         <li class="nav-item my-1 mx-1">
                             <button type="button" class="btn btn-danger"
@@ -47,8 +53,9 @@
                 </div>
                 <div class="modal-body">
                     <form enctype="multipart/form-data" @submit.prevent="submitStak">
+
+                        <!-- Errors -->
                         <div class="col-auto">
-                            <p class="fw-bold mb-0 text-success">{{ messageSuccess }}</p>
                             <p class="fw-bold mb-0 text-danger">{{ messageError }}</p>
                         </div>
                         <div class="col-auto" v-for="errorName in errorsName" :key="errorName">
@@ -60,6 +67,8 @@
                         <div class="col-auto" v-for="errorImage in errorsImage" :key="errorImage">
                             <p class="fw-bold mb-0 text-danger">{{ errorImage }}</p>
                         </div>
+
+                        <!-- Inputs -->
                         <div class="row g-3 align-items-center">
                             <div class="col-auto">
                                 <label for="name" class="col-form-label">Nombre de Tecnologia</label>
@@ -144,53 +153,49 @@ export default {
             'index': -1,
             'id': null,
             'stacks': [],
-            'name': null,
-            'state': null,
+            'name': '',
+            'state': '',
             'states': [
                 'En proceso',
                 'Dominado'
             ],
-            'image': null,
-            'url': 'https://api-portfolio-alansan.up.railway.app/',
+            'image': '',
+            'url': 'http://127.0.0.1:8000/',
             'imageMini': null,
             'messageSuccess': null,
             'messageError': null,
             'errorsName': [],
             'errorsState': [],
-            'errorsImage': []
+            'errorsImage': [],
+            'showStacks': true,
+            'errorServer': false
         }
     },
     async mounted() {
         await this.axios.get('/api/stacks-tecnologicos/')
-            .then(response => this.stacks = response.data)
-            .catch(() => console.log('Ocurrio un error'));
+            .then(response => this.stacks = response.data.data)
+            .catch(() => {
+                this.showStacks = false;
+                this.errorServer = true;
+            });
     },
     methods: {
-        openModalForm(index = null) {
+        openModalForm(index = null, id = null) {
             this.activeForm['d-block'] = true;
             this.activeForm.show = true;
             this.modalActiveForm = true;
 
-            if (index === 0) {
-                const stack = this.stacks[index];
-                this.index = index;
-                this.id = stack.id;
-                this.name = stack.name;
-                this.state = stack.state;
-                this.image = stack.image;
-            } else if (!index) {
+            if (index === null) {
                 this.id = null;
-                this.name = null;
-                this.state = null;
-                this.image = null;
-            }
-            else {
+                this.name = '';
+                this.state = '';
+                this.image = '';
+            } else {
                 const stack = this.stacks[index];
-                this.index = index;
-                this.id = stack.id;
-                this.name = stack.name;
-                this.state = stack.state;
-                this.image = stack.image;
+                this.id = id;
+                this.name = stack.attributes.name;
+                this.state = stack.attributes.state;
+                this.image = stack.attributes.image;
             }
         },
         openModalDelete(id) {
@@ -206,9 +211,9 @@ export default {
             this.modalActiveForm = false;
 
             this.id = null;
-            this.name = null;
-            this.state = null;
-            this.image = [];
+            this.name = '';
+            this.state = '';
+            this.image = '';
             this.imageMini = null;
         },
         closeModalDelete() {
@@ -244,9 +249,9 @@ export default {
                         response => {
                             if (response.data.status === 1) {
                                 this.messageSuccess = response.data.message;
+                                this.closeModalForm();
                                 setTimeout(() => {
-                                    this.messageSuccess = null;
-                                    this.closeModalForm();
+                                    this.messageSuccess = '';
                                 }, 3500);
                                 setTimeout(() => {
                                 }, 3600);
@@ -276,9 +281,9 @@ export default {
                         response => {
                             if (response.data.status === 1) {
                                 this.messageSuccess = response.data.message;
+                                this.closeModalForm();
                                 setTimeout(() => {
-                                    this.messageSuccess = null;
-                                    this.closeModalForm();
+                                    this.messageSuccess = '';
                                 }, 3500);
                             } else {
                                 this.messageError = response.data.message;
@@ -288,12 +293,28 @@ export default {
                             }
                         }
                     )
+                    .catch(
+                        error => {
+                            this.errorsName = error.response.data.errors.name;
+                            this.errorsState = error.response.data.errors.state;
+                            this.errorsImage = error.response.data.errors.image;
+                            setTimeout(() => {
+                                this.errorsName = [];
+                                this.errorsState = [];
+                                this.errorsImage = [];
+                            }, 3500);
+                        }
+                    )
+                    
             }
 
 
             this.axios.get('/api/stacks-tecnologicos/')
-                .then(response => this.stacks = response.data)
-                .catch(() => console.log('Ocurrio un error'));
+                .then(response => this.stacks = response.data.data)
+                .catch(() => {
+                    this.showStacks = false;
+                    this.errorServer = true;
+                });
 
 
         },
@@ -308,7 +329,10 @@ export default {
 
             this.axios.get('/api/stacks-tecnologicos/')
                 .then(response => this.stacks = response.data)
-                .catch(() => console.log('Ocurrio un error'));
+                .catch(() => {
+                    this.showStacks = false;
+                    this.errorServer = true;
+                });
         }
     },
     computed: {

@@ -7,7 +7,7 @@ import storage from './storage';
 
 import './assets/css/styles.css';
 
-axios.defaults.baseURL = 'https://api-portfolio-alansan.up.railway.app/';
+axios.defaults.baseURL = 'https://portfolio-api-x38mb.ondigitalocean.app/';
 
 const token = localStorage.getItem('access_token');
 

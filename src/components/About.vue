@@ -6,12 +6,12 @@
                     <h2 class="text-white mt-0">Un breve resumen de quién soy<br>Y mis intereses</h2>
                     <hr class="divider divider-light" />
                     <p class="text-white-75">Mucho gusto, soy Alan y tengo 26 años. Desperté una pasión por la
-                        tecnología desde muy tempranada edad, lo cuál me llevó a querer hacer algo en concreto
+                        tecnología desde muy temprana edad, lo cuál me llevó a querer a hacer algo en concreto
                         conociendo el desarrollo web, especialmente muestro más apego por el desarrollo de aplicaciones
-                        entorno backend.</p>
+                        de entorno backend.</p>
                     <p class="text-white-75 mb-4">Tengo muy grandes ambiciones, un gran apetito de conocimiento y sobre
-                        todo grandes espectativas sobre mí. ¿Mi primordial objetivo? Por supuesto que quiero crecer
-                        profesionalmente hasta un nivel global</p>
+                        todo grandes espectativas sobre mí. ¿Mi primordial objetivo? Por supuesto que es crecer
+                        profesionalmente hasta un nivel global.</p>
                     <a class="btn btn-light btn-xl" href="#services">¡Sigue el recorrido!</a>
                 </div>
             </div>
