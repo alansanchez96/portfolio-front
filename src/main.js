@@ -7,7 +7,7 @@ import storage from './storage';
 
 import './assets/css/styles.css';
 
-axios.defaults.baseURL = 'https://portfolio-api-x38mb.ondigitalocean.app/';
+axios.defaults.baseURL = 'https://sea-turtle-app-3dk33.ondigitalocean.app/';
 
 const token = localStorage.getItem('access_token');
 
