@@ -31,7 +31,7 @@ export default {
     name: 'Conocimientos',
     data() {
         return {
-            'url': 'https://portfolio-api-x38mb.ondigitalocean.app/',
+            'url': 'https://sea-turtle-app-3dk33.ondigitalocean.app/',
             'stacks': [],
             'showStacks': true,
             'serverError': false,

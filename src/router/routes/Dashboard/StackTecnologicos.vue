@@ -130,8 +130,6 @@
             </div>
         </div>
     </div>
-
-
 </template>
 
 <script>
@@ -160,7 +158,7 @@ export default {
                 'Dominado'
             ],
             'image': '',
-            'url': 'https://portfolio-api-x38mb.ondigitalocean.app/',
+            'url': 'https://sea-turtle-app-3dk33.ondigitalocean.app/',
             'imageMini': null,
             'messageSuccess': null,
             'messageError': null,

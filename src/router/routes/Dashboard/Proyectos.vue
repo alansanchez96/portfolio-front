@@ -10,7 +10,7 @@
     </button>
 
     <p class="fw-bold my-4 text-danger" v-show="errorServer">Ocurrio un error con el servidor</p>
-    
+
     <table class="table table-striped table-dark" v-show="showProjects">
         <thead>
             <tr>
@@ -85,8 +85,7 @@
                                 <label for="description" class="col-form-label">Descripcion</label>
                             </div>
                             <div class="col-auto">
-                                <textarea class="form-control" id="description" rows="3"
-                                    v-model="description"></textarea>
+                                <textarea class="form-control" id="description" rows="3" v-model="description"></textarea>
                             </div>
                         </div>
                         <div class="row g-3 align-items-center">
@@ -137,8 +136,6 @@
             </div>
         </div>
     </div>
-
-
 </template>
 
 <script>
@@ -170,7 +167,7 @@ export default {
             'errorsDescription': [],
             'errorsImage': [],
             'errorsUrl': [],
-            'urlAPI': 'https://portfolio-api-x38mb.ondigitalocean.app/',
+            'urlAPI': 'https://sea-turtle-app-3dk33.ondigitalocean.app/',
             'errorServer': false,
             'showProjects': true,
         }

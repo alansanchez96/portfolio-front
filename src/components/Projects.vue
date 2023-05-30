@@ -6,8 +6,7 @@
                 </p>
                 <div class="col-lg-4 col-sm-6 p-3 d-flex align-items-center justify-content-center"
                     v-for="(project, index) in projects" :key="project" v-show="showProjects">
-                    <a class="portfolio-box" href="#" @click.prevent="openModal(index)"
-                        :title="project.attributes.title">
+                    <a class="portfolio-box" href="#" @click.prevent="openModal(index)" :title="project.attributes.title">
                         <img class="img-fluid" :src="(urlAPI + project.attributes.image)" alt="" />
                         <div class="portfolio-box-caption">
                             <div class="project-category text-white-50">Click para ver más detalles</div>
@@ -42,7 +41,7 @@ export default {
     name: 'Projects',
     data() {
         return {
-            'urlAPI': 'https://portfolio-api-x38mb.ondigitalocean.app/',
+            'urlAPI': 'https://sea-turtle-app-3dk33.ondigitalocean.app/',
             'projects': [],
             'viewModal': false,
             activeModal: {
