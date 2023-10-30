@@ -5,7 +5,9 @@
             <hr class="divider" />
             <div class="slider">
                 <p class="text-danger text-center fw-bold mx-auto" v-show="serverError">
-                    Ocurrio un error con el servidor.
+                    <span>Ocurrio un error con el servidor.</span><br>
+                    <span class="text-primary">Ayudame a mantenerlo funcionando con una pequeña donacion a este Alias:</span><br><br>
+                    <span class="text-success">OPENBANK.SNCHZ</span>
                 </p>
                 <div v-for="stack in stacks" :key="stack" v-show="showStacks">
                     <div class="card__conocimiento">

@@ -2,7 +2,10 @@
     <div id="portfolio">
         <div class="container-fluid bg-dark p-0">
             <div class="row g-0">
-                <p class="text-danger fw-bold text-center mt-5" v-show="errorServer">Ocurrio un error con el servidor
+                <p class="text-danger fw-bold text-center mt-5" v-show="errorServer">
+                    <span>Ocurrio un error con el servidor.</span><br>
+                    <span class="text-primary">Ayudame a mantenerlo funcionando con una pequeña donacion a este Alias:</span><br><br>
+                    <span class="text-success">OPENBANK.SNCHZ</span>
                 </p>
                 <div class="col-lg-4 col-sm-6 p-3 d-flex align-items-center justify-content-center"
                     v-for="(project, index) in projects" :key="project" v-show="showProjects">

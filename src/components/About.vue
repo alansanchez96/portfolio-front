@@ -10,8 +10,8 @@
                         conociendo el desarrollo web, especialmente muestro más apego por el desarrollo de aplicaciones
                         de entorno backend.</p>
                     <p class="text-white-75 mb-4">Tengo muy grandes ambiciones, un gran apetito de conocimiento y sobre
-                        todo grandes espectativas sobre mí. ¿Mi primordial objetivo? Por supuesto que es crecer
-                        profesionalmente hasta un nivel global.</p>
+                        todo grandes espectativas sobre mí. <strong>¿Quieres saber cuál es mi principal objetivo? </strong> Por supuesto que es crecer
+                        profesionalmente hasta un <br> <strong>nivel global.</strong></p>
                     <a class="btn btn-light btn-xl" href="#services">¡Sigue el recorrido!</a>
                 </div>
             </div>
