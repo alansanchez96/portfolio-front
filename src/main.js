@@ -7,7 +7,7 @@ import storage from './storage';
 
 import './assets/css/styles.css';
 
-axios.defaults.baseURL = 'http://dev-alansan-netlify-app.preview-domain.com/';
+axios.defaults.baseURL = 'https://dev-alansan-netlify-app.preview-domain.com/';
 
 const token = localStorage.getItem('access_token');
 

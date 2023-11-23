@@ -158,7 +158,7 @@ export default {
                 'Dominado'
             ],
             'image': '',
-            'url': 'http://dev-alansan-netlify-app.preview-domain.com/',
+            'url': 'https://dev-alansan-netlify-app.preview-domain.com/',
             'imageMini': null,
             'messageSuccess': null,
             'messageError': null,

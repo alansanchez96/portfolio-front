@@ -167,7 +167,7 @@ export default {
             'errorsDescription': [],
             'errorsImage': [],
             'errorsUrl': [],
-            'urlAPI': 'http://dev-alansan-netlify-app.preview-domain.com/',
+            'urlAPI': 'https://dev-alansan-netlify-app.preview-domain.com/',
             'errorServer': false,
             'showProjects': true,
         }

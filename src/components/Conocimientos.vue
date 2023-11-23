@@ -33,7 +33,7 @@ export default {
     name: 'Conocimientos',
     data() {
         return {
-            'url': 'http://dev-alansan-netlify-app.preview-domain.com/',
+            'url': 'https://dev-alansan-netlify-app.preview-domain.com/',
             'stacks': [],
             'showStacks': true,
             'serverError': false,

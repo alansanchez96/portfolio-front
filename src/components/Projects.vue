@@ -44,7 +44,7 @@ export default {
     name: 'Projects',
     data() {
         return {
-            'urlAPI': 'http://dev-alansan-netlify-app.preview-domain.com/',
+            'urlAPI': 'https://dev-alansan-netlify-app.preview-domain.com/',
             'projects': [],
             'viewModal': false,
             activeModal: {
