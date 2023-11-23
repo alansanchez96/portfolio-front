@@ -158,7 +158,7 @@ export default {
                 'Dominado'
             ],
             'image': '',
-            'url': 'https://sea-turtle-app-3dk33.ondigitalocean.app/',
+            'url': 'http://dev-alansan-netlify-app.preview-domain.com/',
             'imageMini': null,
             'messageSuccess': null,
             'messageError': null,

@@ -7,7 +7,7 @@ import storage from './storage';
 
 import './assets/css/styles.css';
 
-axios.defaults.baseURL = 'https://sea-turtle-app-3dk33.ondigitalocean.app/';
+axios.defaults.baseURL = 'http://dev-alansan-netlify-app.preview-domain.com/';
 
 const token = localStorage.getItem('access_token');
 

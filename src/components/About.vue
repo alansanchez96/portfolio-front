@@ -5,7 +5,7 @@
                 <div class="col-lg-8 text-center">
                     <h2 class="text-white mt-0">Un breve resumen de quién soy<br>Y mis intereses</h2>
                     <hr class="divider divider-light" />
-                    <p class="text-white-75">Mucho gusto, soy Alan y tengo 26 años. Desperté una pasión por la
+                    <p class="text-white-75">Mucho gusto, soy Alan y tengo 27 años. Desperté una pasión por la
                         tecnología desde muy temprana edad, lo cuál me llevó a querer a hacer algo en concreto
                         conociendo el desarrollo web, especialmente muestro más apego por el desarrollo de aplicaciones
                         de entorno backend.</p>

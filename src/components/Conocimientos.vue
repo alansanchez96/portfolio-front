@@ -33,7 +33,7 @@ export default {
     name: 'Conocimientos',
     data() {
         return {
-            'url': 'https://sea-turtle-app-3dk33.ondigitalocean.app/',
+            'url': 'http://dev-alansan-netlify-app.preview-domain.com/',
             'stacks': [],
             'showStacks': true,
             'serverError': false,

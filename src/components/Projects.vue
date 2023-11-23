@@ -44,7 +44,7 @@ export default {
     name: 'Projects',
     data() {
         return {
-            'urlAPI': 'https://sea-turtle-app-3dk33.ondigitalocean.app/',
+            'urlAPI': 'http://dev-alansan-netlify-app.preview-domain.com/',
             'projects': [],
             'viewModal': false,
             activeModal: {

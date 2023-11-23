@@ -167,7 +167,7 @@ export default {
             'errorsDescription': [],
             'errorsImage': [],
             'errorsUrl': [],
-            'urlAPI': 'https://sea-turtle-app-3dk33.ondigitalocean.app/',
+            'urlAPI': 'http://dev-alansan-netlify-app.preview-domain.com/',
             'errorServer': false,
             'showProjects': true,
         }
