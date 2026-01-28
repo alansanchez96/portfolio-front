@@ -8375,6 +8375,10 @@ fieldset:disabled .btn {
   margin-bottom: 3rem !important;
 }
 
+.mb-8 {
+  margin-bottom: 4rem !important;
+}
+
 .mb-auto {
   margin-bottom: auto !important;
 }
@@ -12313,7 +12317,7 @@ body {
 }
 
 .text-white-75 {
-  color: rgba(255, 255, 255, 0.75) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .btn-xl {
