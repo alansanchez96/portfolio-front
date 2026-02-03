@@ -358,14 +358,6 @@ export default {
             'showStacks': true,
             'serverError': false,
         }
-    },
-    async mounted() {
-        await this.axios.get('/api/stacks-tecnologicos')
-            .then(response => this.stacks = response.data.data)
-            .catch(() => {
-                this.serverError = true;
-                this.showStacks = false;
-            })
     }
 }
 </script>

@@ -19,10 +19,6 @@ export default {
         return {
             'url_pdf': '',
         }
-    },
-    async mounted() {
-        await this.axios.get('/api/information/1')
-            .then(r => this.url_pdf = r.data.data.attributes.url_pdf)
     }
 }
 </script>
