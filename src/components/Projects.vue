@@ -242,6 +242,8 @@ export default {
             return images
         },
         openModal(project) {
+            const storedState = this.getDescriptionState(project.id)
+
             this.currentProject = {
                 ...project.attributes,
                 images: this.getProjectImages(project.attributes),
@@ -251,8 +253,10 @@ export default {
             this.currentImageIndex = 0
             this.viewModal = true
 
-            // 🔁 restaurar estado previo
-            this.showDescription = this.descriptionStateByProject[project.id] ?? false
+            this.showDescription =
+                storedState !== null
+                    ? storedState
+                    : this.descriptionStateByProject[project.id] ?? false
 
             document.body.classList.add('overflow-hidden')
 
@@ -262,6 +266,7 @@ export default {
         closeModal() {
             if (this.currentProject?.id) {
                 this.descriptionStateByProject[this.currentProject.id] = this.showDescription
+                this.saveDescriptionState(this.currentProject.id, this.showDescription)
             }
 
             this.viewModal = false
@@ -377,7 +382,45 @@ export default {
             this.translateX = 0
             this.translateY = 0
             this.isDragging = false
-        }
+        },
+        saveDescriptionState(projectId, value) {
+            const payload = {
+                value,
+                expiresAt: Date.now() + 24 * 60 * 60 * 1000 // 24h
+            }
+            localStorage.setItem(
+                `project_desc_${projectId}`,
+                JSON.stringify(payload)
+            )
+        },
+
+        getDescriptionState(projectId) {
+            const raw = localStorage.getItem(`project_desc_${projectId}`)
+            if (!raw) return null
+
+            try {
+                const parsed = JSON.parse(raw)
+                if (Date.now() > parsed.expiresAt) {
+                    localStorage.removeItem(`project_desc_${projectId}`)
+                    return null
+                }
+                return parsed.value
+            } catch {
+                return null
+            }
+        },
+
+        handleKeydown(e) {
+            if (e.key !== 'Escape') return
+
+            if (!this.viewModal) return
+
+            if (this.showDescription) {
+                this.showDescription = false
+            } else {
+                this.closeModal()
+            }
+        },
     },
     computed: {
         imageStyle() {
@@ -395,7 +438,24 @@ export default {
                 : 'Abrir enlace'
         }
     },
+    watch: {
+        showDescription(newVal) {
+            if (this.currentProject?.id) {
+                this.saveDescriptionState(this.currentProject.id, newVal)
+            }
+        }
+    },
+    beforeUnmount() {
+        window.removeEventListener('keydown', this.handleKeydown)
+    },
     mounted() {
+        this.projects.forEach(p => {
+            const img = new Image()
+            img.src = p.attributes.cover
+        })
+
+        window.addEventListener('keydown', this.handleKeydown)
+
         this.projects.forEach(p => {
             const img = new Image()
             img.src = p.attributes.cover
