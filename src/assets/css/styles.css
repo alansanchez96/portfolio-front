@@ -12320,6 +12320,14 @@ body {
   color: rgba(255, 255, 255, 0.8) !important;
 }
 
+.btn-sm {
+  padding: 1rem 1rem;
+  font-size: 0.70rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 10rem;
+}
+
 .btn-xl {
   padding: 1.25rem 2.25rem;
   font-size: 0.85rem;
@@ -12528,7 +12536,7 @@ header.masthead .h1 {
 #portfolio .container-xxl .portfolio-box .portfolio-box-caption .project-category {
   font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 400;
   text-transform: uppercase;
 }
 
@@ -12539,6 +12547,7 @@ header.masthead .h1 {
 #portfolio .container-xl .portfolio-box .portfolio-box-caption .project-name,
 #portfolio .container-xxl .portfolio-box .portfolio-box-caption .project-name {
   font-size: 1.2rem;
+  font-weight: 600;
 }
 
 #portfolio .container-fluid .portfolio-box:hover .portfolio-box-caption,
@@ -12595,7 +12604,7 @@ header.masthead .h1 {
 }
 
 .card__img:hover img {
-  transform: scale(1.09);
+  transform: scale(1.5);
 }
 
 .card__texto {
