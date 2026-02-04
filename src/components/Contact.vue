@@ -51,9 +51,9 @@
                         </div>
                         <div class="spinner" v-show="isLoading"></div>
 
-                        <div v-show="(submited && !isLoading)">
-                            <button class="btn btn-primary btn-xl w-100" :class="{ disabled }">Submit</button>
-                        </div>
+                        <button class="btn btn-primary btn-xl w-100" :disabled="disabled || isLoading">
+                            Enviar mensaje
+                        </button>
                     </form>
                 </div>
             </div>
@@ -78,6 +78,8 @@
 </template>
 
 <script>
+import emailjs from '@emailjs/browser'
+
 export default {
     name: 'Contact',
     data() {
@@ -91,43 +93,55 @@ export default {
             'errorsName': [],
             'errorsEmail': [],
             'errorsMessage': [],
+            serviceId: process.env.VUE_APP_EMAILJS_SERVICE_ID,
+            templateId: process.env.VUE_APP_EMAILJS_TEMPLATE_ID,
+            publicKey: process.env.VUE_APP_EMAILJS_PUBLIC_KEY,
         }
     },
     methods: {
         async submitMessage() {
-            const data = {
-                'name': this.name,
-                'email': this.email,
-                'message': this.textarea,
+            this.isLoading = true
+
+            this.errorsName = []
+            this.errorsEmail = []
+            this.errorsMessage = []
+
+            if (!this.name) this.errorsName.push('El nombre es obligatorio')
+            if (!this.email) this.errorsEmail.push('El email es obligatorio')
+            if (!this.textarea) this.errorsMessage.push('El mensaje es obligatorio')
+
+            if (this.errorsName.length || this.errorsEmail.length || this.errorsMessage.length) {
+                this.isLoading = false
+                return
             }
 
-            await this.axios.post('/api/contact/message', data)
-                .then(
-                    response => {
-                        console.log(response);
+            const templateParams = {
+                name: this.name,
+                email: this.email,
+                message: this.textarea,
+            }
 
-                        this.isLoading = true;
-
-                        if (response.data.status === 1) {
-                            this.submited = false;
-                            this.isLoading = false;
-                        }
-                    }
+            try {
+                emailjs.send(
+                    this.serviceId,
+                    this.templateId,
+                    templateParams,
+                    this.publicKey
                 )
-                .catch(
-                    error => {
-                        this.errorsName = error.response.data.errors.name;
-                        this.errorsEmail = error.response.data.errors.email;
-                        this.errorsMessage = error.response.data.errors.message;
 
-                        setTimeout(() => {
-                            this.errorsName = [];
-                            this.errorsEmail = [];
-                            this.errorsMessage = [];
-                        }, 4500);
-                    }
-                )
+                this.submited = false
+                this.name = ''
+                this.email = ''
+                this.textarea = ''
+
+            } catch (error) {
+                console.error(error)
+                this.errorsMessage.push('Error al enviar el mensaje. Intente nuevamente.')
+            } finally {
+                this.isLoading = false
+            }
         }
+
     },
     computed: {
         validatedInput() {
