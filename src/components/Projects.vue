@@ -124,9 +124,7 @@ export default {
                 id: 1,
                 attributes: {
                     title: 'CronoManager',
-                    description: 'Aplicacion de monitoreo y control de Empleados con fichajes digitales vía WhatsApp con GPS/OTP Control de Ausencias y Vacaciones Aplicacion de Servicios o Puestos de servicios Pasarelas de Pagos Manejo de multiples Zonas Horarias Multi Tenant Generacion de Informes por Excel y PDF Transferencias de Datos vía JWT',
-                    typeButton: 'sitio', // 'sitio' | 'enlace'
-                    url: 'https://cronomanager.com',
+                    description: 'CronoManager es una plataforma SaaS multi-tenant orientada al control horario y gestión de fichajes en tiempo real.\n\nPermite a los empleados registrar su jornada mediante WhatsApp (API oficial) utilizando códigos OTP o enlaces seguros con tokens JWT, así como a través de un minisite donde pueden iniciar, pausar y finalizar turnos, justificar ausencias y solicitar vacaciones.\n\nIncluye un calendario interactivo con soporte para horarios múltiples por día, patrones reutilizables, notificaciones automáticas configurables, control de fichajes por GPS y exportación de reportes en Excel y PDF.\n\nLa arquitectura está basada en tenant por base de datos, con paneles administrativos, gestión de roles y permisos, dashboards de rendimiento e integración con Stripe para suscripciones y facturación.\n\nParticipé activamente en el diseño y desarrollo de la API backend, así como en el despliegue de la aplicación en Google Cloud Platform utilizando Google Compute Engine y servicios de almacenamiento en Google Cloud Storage (buckets) para la gestión de archivos y recursos del sistema.',                    url: 'https://cronomanager.com',
                     cover: '/img/projects/cronomanager/portada.webp',
                     folder: 'cronomanager',
                     imagesCount: 20,
@@ -738,6 +736,7 @@ export default {
     line-height: 1.7;
     padding-right: 10px;
     flex: 1;
+    white-space: pre-line;
 }
 
 /* BOTÓN CIERRE */
