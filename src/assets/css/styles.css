@@ -12328,6 +12328,12 @@ body {
   border-radius: 10rem;
 }
 
+@media (max-width: 768px) {
+  .btn-sm {
+    padding: .65rem 1rem;
+  }
+}
+
 .btn-xl {
   padding: 1.25rem 2.25rem;
   font-size: 0.85rem;

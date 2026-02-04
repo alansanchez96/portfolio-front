@@ -10,7 +10,7 @@
                             :alt="project.attributes.title" />
                         <div class="portfolio-box-caption">
                             <div class="project-category text-white-50">Click para ver más detalles</div>
-                            <div class="project-name">{{ project.attributes.title }}</div>
+                            <div class="project-name">— {{ project.attributes.title }} —</div>
                         </div>
                     </a>
                 </div>
@@ -37,7 +37,7 @@
 
             <!-- HEADER / GALERÍA -->
             <div class="modal-media">
-                <button class="nav-btn left" @click="prevImage">‹</button>
+                <button class="nav-btn left" @click="prevImage"><div class="nav-btn-text">‹</div></button>
 
                 <div class="image-wrapper">
                     <img v-if="currentProject" :src="currentProject.images[currentImageIndex]" class="modal-image"
@@ -54,7 +54,7 @@
                         @click="selectImage(index)" />
                 </div>
 
-                <button class="nav-btn right" @click="nextImage">›</button>
+                <button class="nav-btn right" @click="nextImage"><div class="nav-btn-text">›</div></button>
 
                 <button class="close-btn" @click="closeModal">×</button>
             </div>
@@ -63,7 +63,7 @@
             <div class="modal-content-body bg-dark">
                 <div class="modal-footer-bar">
                     <!-- Izquierda -->
-                    <button class="btn btn-outline-light btn-sm" @click="showDescription = true">
+                    <button class="btn btn-primary btn-sm" @click="showDescription = true">
                         Ver descripción
                     </button>
 
@@ -124,7 +124,9 @@ export default {
                 id: 1,
                 attributes: {
                     title: 'CronoManager',
-                    description: 'CronoManager es una plataforma SaaS multi-tenant orientada al control horario y gestión de fichajes en tiempo real.\n\nPermite a los empleados registrar su jornada mediante WhatsApp (API oficial) utilizando códigos OTP o enlaces seguros con tokens JWT, así como a través de un minisite donde pueden iniciar, pausar y finalizar turnos, justificar ausencias y solicitar vacaciones.\n\nIncluye un calendario interactivo con soporte para horarios múltiples por día, patrones reutilizables, notificaciones automáticas configurables, control de fichajes por GPS y exportación de reportes en Excel y PDF.\n\nLa arquitectura está basada en tenant por base de datos, con paneles administrativos, gestión de roles y permisos, dashboards de rendimiento e integración con Stripe para suscripciones y facturación.\n\nParticipé activamente en el diseño y desarrollo de la API backend, así como en el despliegue de la aplicación en Google Cloud Platform utilizando Google Compute Engine y servicios de almacenamiento en Google Cloud Storage (buckets) para la gestión de archivos y recursos del sistema.',                    url: 'https://cronomanager.com',
+                    description: 'CronoManager es una plataforma SaaS multi-tenant orientada al control horario y gestión de fichajes en tiempo real.\n\nPermite a los empleados registrar su jornada mediante WhatsApp (API oficial) utilizando códigos OTP o enlaces seguros con tokens JWT, así como a través de un minisite donde pueden iniciar, pausar y finalizar turnos, justificar ausencias y solicitar vacaciones.\n\nIncluye un calendario interactivo con soporte para horarios múltiples por día, patrones reutilizables, notificaciones automáticas configurables, control de fichajes por GPS y exportación de reportes en Excel y PDF.\n\nLa arquitectura está basada en tenant por base de datos, con paneles administrativos, gestión de roles y permisos, dashboards de rendimiento e integración con Stripe para suscripciones y facturación.\n\nParticipé activamente en el diseño y desarrollo de la API backend, así como en el despliegue de la aplicación en Google Cloud Platform utilizando Google Compute Engine y servicios de almacenamiento en Google Cloud Storage (buckets) para la gestión de archivos y recursos del sistema.', url: 'https://cronomanager.com',
+                    typeButton: 'sitio', // 'sitio' | 'enlace'
+                    url: 'https://cronomanager.com/',
                     cover: '/img/projects/cronomanager/portada.webp',
                     folder: 'cronomanager',
                     imagesCount: 20,
@@ -481,7 +483,7 @@ export default {
     overflow: hidden;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
     animation: scaleIn 0.25s ease;
-    max-height: 90vh;
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -516,18 +518,16 @@ export default {
 .image-wrapper {
     width: 100%;
     height: 60vh;
-    /* el contenedor manda */
-    background: #d1d1d1;
+    background: #005180;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    /* 🔴 clave: nada se sale */
     padding: 16px;
 }
 
 .modal-image {
-    max-width: 100%;
+    max-width: 85%;
     max-height: 100%;
     object-fit: contain;
     transition: transform 0.25s ease;
@@ -565,6 +565,7 @@ export default {
     position: absolute;
     top: 12px;
     right: 14px;
+    padding-bottom: 3px;
     background: rgba(0, 0, 0, 0.5);
     border: none;
     color: #fff;
@@ -593,6 +594,11 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
+}
+
+.nav-btn-text {
+    padding-bottom: 5px;
 }
 
 .nav-btn.left {
@@ -761,5 +767,45 @@ export default {
     backdrop-filter: blur(5px);
     background: rgba(0, 0, 0, 0.2);
     z-index: 15;
+}
+
+@media (max-width: 768px) {
+    .modal-footer-bar {
+        grid-template-areas:
+            "title title title"
+            "left  .     right";
+        row-gap: 12px;
+    }
+
+    /* Título arriba, centrado */
+    .modal-title-center {
+        grid-area: title;
+        font-size: 1.2rem;
+        white-space: normal;
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    /* Botón izquierda */
+    .modal-footer-bar>button {
+        grid-area: left;
+        justify-self: start;
+    }
+
+    /* Botón derecha */
+    .modal-footer-bar>a {
+        grid-area: right;
+        justify-self: end;
+    }
+
+    .modal-image {
+        max-width: 100%;
+    }
+
+    .nav-btn {
+        top: 75%;
+        width: 35px;
+        height: 35px;
+    }
 }
 </style>
