@@ -17,7 +17,7 @@
 export default {
     data() {
         return {
-            'url_pdf': 'https://drive.google.com/file/d/1QRjhqs4O07rjaLMG3opj_CGTsHBnrJzk/view?usp=sharing',
+            'url_pdf': 'https://drive.google.com/file/d/1kSZybbLHdshM--ZDI_9Ysy4DBKkjcQnV/view?usp=sharing',
         }
     }
 }
