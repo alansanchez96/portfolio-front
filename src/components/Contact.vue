@@ -1,180 +1,212 @@
 <template>
-    <section class="page-section" id="contact">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-8 col-xl-6 text-center">
-                    <h2 class="mt-0">¡Mantengamosnos en contacto!</h2>
-                    <hr class="divider" />
-                </div>
-                <div class="divider" v-for="(errorName, i) in errorsName" v-bind:key="errorName">
-                    <p class="fw-bold mx-3 mb-0 text-center text-danger">{{ errorName }}</p>
-                </div>
-                <div class="divider" v-for="(errorEmail, i) in errorsEmail" v-bind:key="errorEmail">
-                    <p class="fw-bold mx-3 mb-0 text-center text-danger">{{ errorEmail }}</p>
-                </div>
-                <div class="divider" v-for="(errorMessage, i) in errorsMessage" v-bind:key="errorMessage">
-                    <p class="fw-bold mx-3 mb-0 text-center text-danger">{{ errorMessage }}</p>
-                </div>
+  <section class="section-shell" id="contact">
+    <div class="container-shell">
+      <div class="section-heading" v-reveal="0">
+        <p class="section-kicker">Contacto</p>
+        <h2 class="section-title">{{ contact.title }}</h2>
+        <p class="section-intro">
+          {{ contact.intro }}
+        </p>
+      </div>
 
-            </div>
-            <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
-                <div class="col-lg-6">
-
-                    <form @submit.prevent="submitMessage">
-
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="name" type="text" placeholder="Enter your name..."
-                                v-model="name" @keyup="validatedInput" />
-                            <label for="name">Nombre Completo</label>
-                        </div>
-
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="email" type="email" placeholder="name@example.com"
-                                v-model="email" @keyup="validatedInput" />
-                            <label for="email">Email</label>
-                        </div>
-
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" id="textarea" type="text"
-                                placeholder="Enter your message here..." style="height: 10rem" v-model="textarea"
-                                @keyup="validatedInput"></textarea>
-                            <label for="textarea">Mensaje</label>
-                        </div>
-
-                        <div v-show="!submited">
-                            <div class="text-center mb-3">
-                                <div class="fw-bolder">¡Tu mensaje fué enviado satisfactoriamente!</div>
-                                <br />
-                                <a href="https://github.com/alansanchez96/" target="_blank">Gracias por enviar un
-                                    mensaje, puedes revisar mi perfil en GitHub :)</a>
-                            </div>
-                        </div>
-                        <div class="spinner" v-show="isLoading"></div>
-
-                        <button class="btn btn-primary btn-xl w-100" :disabled="disabled || isLoading">
-                            Enviar mensaje
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="row gx-4 mt-5 gx-lg-5 justify-content-center">
-                <div class="col-lg-4 text-center mb-5 mb-lg-0 w-75">
-                    <h3>Puedes encontarme en</h3>
-                    <div class="mt-5 w-50 mx-auto d-flex flex-column flex-sm-row justify-content-around gap-4">
-                        <a href="https://fb.com/alaansannchezz" target="_blank">
-                            <i class='bx bxl-facebook bx-2'> </i>
-                        </a>
-                        <a href="https://linkedin.com/in/alansanchez96/" target="_blank">
-                            <i class='bx bxl-linkedin bx-2'></i>
-                        </a>
-                        <a href="https://github.com/alansanchez96" target="_blank">
-                            <i class='bx bxl-github bx-2'></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+      <div class="contact-layout">
+        <div class="contact-channels">
+          <a
+            v-for="(channel, index) in contact.channels"
+            :key="channel.title"
+            :href="channel.href"
+            class="contact-card card-surface"
+            target="_blank"
+            rel="noreferrer"
+            v-reveal="index * 90"
+          >
+            <i :class="['bx', channel.icon]"></i>
+            <h3>{{ channel.title }}</h3>
+            <p>{{ channel.description }}</p>
+          </a>
         </div>
-    </section>
+
+        <div class="contact-panel card-surface contact-form" v-reveal="220">
+          <div class="contact-form__header">
+            <h3>Cuéntame qué estás construyendo</h3>
+            <p>
+              Si tienes una idea, un producto en marcha o un sistema que necesita orden,
+              puedes escribirme directamente desde aquí.
+            </p>
+          </div>
+
+          <p v-if="!hasEmailConfig" class="form-feedback form-feedback--warning">
+            Faltan variables de EmailJS para habilitar el envío desde el formulario.
+          </p>
+
+          <p v-if="statusMessage" :class="['form-feedback', statusClass]">
+            {{ statusMessage }}
+          </p>
+
+          <form class="site-form" @submit.prevent="submitMessage">
+            <label class="field">
+              <span>Nombre</span>
+              <input
+                v-model.trim="form.name"
+                class="field__input"
+                type="text"
+                placeholder="Tu nombre o empresa"
+              />
+              <small v-if="errors.name">{{ errors.name }}</small>
+            </label>
+
+            <label class="field">
+              <span>Email</span>
+              <input
+                v-model.trim="form.email"
+                class="field__input"
+                type="email"
+                placeholder="tu@email.com"
+              />
+              <small v-if="errors.email">{{ errors.email }}</small>
+            </label>
+
+            <label class="field">
+              <span>Mensaje</span>
+              <textarea
+                v-model.trim="form.message"
+                class="field__input field__input--textarea"
+                placeholder="Cuéntame el contexto, el problema y qué resultado quieres lograr."
+              ></textarea>
+              <small v-if="errors.message">{{ errors.message }}</small>
+            </label>
+
+            <button
+              class="button button--solid contact-form__submit"
+              :disabled="isSubmitting || !canSubmit"
+              type="submit"
+            >
+              {{ isSubmitting ? 'Enviando...' : 'Enviar mensaje' }}
+            </button>
+          </form>
+
+          <div class="contact-panel__divider"></div>
+
+          <div>
+            <h3>{{ contact.availabilityTitle }}</h3>
+            <ul class="detail-list">
+              <li v-for="item in contact.availabilityItems" :key="item">
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
-<script>
-import emailjs from '@emailjs/browser'
+<script setup>
+import emailjs from '@emailjs/browser';
+import { computed, reactive, ref } from 'vue';
 
-export default {
-    name: 'Contact',
-    data() {
-        return {
-            'name': '',
-            'email': '',
-            'textarea': '',
-            'disabled': true,
-            'submited': true,
-            'isLoading': false,
-            'errorsName': [],
-            'errorsEmail': [],
-            'errorsMessage': [],
-            serviceId: process.env.VUE_APP_EMAILJS_SERVICE_ID,
-            templateId: process.env.VUE_APP_EMAILJS_TEMPLATE_ID,
-            publicKey: process.env.VUE_APP_EMAILJS_PUBLIC_KEY,
-        }
-    },
-    methods: {
-        async submitMessage() {
-            this.isLoading = true
+defineProps({
+  contact: {
+    type: Object,
+    required: true,
+  },
+});
 
-            this.errorsName = []
-            this.errorsEmail = []
-            this.errorsMessage = []
+const form = reactive({
+  name: '',
+  email: '',
+  message: '',
+});
 
-            if (!this.name) this.errorsName.push('El nombre es obligatorio')
-            if (!this.email) this.errorsEmail.push('El email es obligatorio')
-            if (!this.textarea) this.errorsMessage.push('El mensaje es obligatorio')
+const errors = reactive({
+  name: '',
+  email: '',
+  message: '',
+});
 
-            if (this.errorsName.length || this.errorsEmail.length || this.errorsMessage.length) {
-                this.isLoading = false
-                return
-            }
+const isSubmitting = ref(false);
+const statusMessage = ref('');
+const statusType = ref('');
 
-            const templateParams = {
-                name: this.name,
-                email: this.email,
-                message: this.textarea,
-            }
+const serviceId = process.env.VUE_APP_EMAILJS_SERVICE_ID;
+const templateId = process.env.VUE_APP_EMAILJS_TEMPLATE_ID;
+const publicKey = process.env.VUE_APP_EMAILJS_PUBLIC_KEY;
 
-            try {
-                emailjs.send(
-                    this.serviceId,
-                    this.templateId,
-                    templateParams,
-                    this.publicKey
-                )
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                this.submited = false
-                this.name = ''
-                this.email = ''
-                this.textarea = ''
+const hasEmailConfig = computed(() => Boolean(serviceId && templateId && publicKey));
 
-            } catch (error) {
-                console.error(error)
-                this.errorsMessage.push('Error al enviar el mensaje. Intente nuevamente.')
-            } finally {
-                this.isLoading = false
-            }
-        }
+const validateForm = () => {
+  errors.name = form.name ? '' : 'El nombre es obligatorio.';
+  errors.email = !form.email
+    ? 'El email es obligatorio.'
+    : emailPattern.test(form.email)
+      ? ''
+      : 'Ingresa un email válido.';
+  errors.message = form.message ? '' : 'El mensaje es obligatorio.';
 
-    },
-    computed: {
-        validatedInput() {
-            if (
-                this.name !== '' &&
-                this.email !== '' &&
-                this.textarea !== ''
-            ) {
-                this.disabled = false;
-            } else {
-                this.disabled = true;
-            }
-        }
-    }
-}
+  return !errors.name && !errors.email && !errors.message;
+};
+
+const canSubmit = computed(() => {
+  return hasEmailConfig.value && form.name && form.email && form.message;
+});
+
+const statusClass = computed(() => {
+  if (statusType.value === 'success') {
+    return 'form-feedback--success';
+  }
+
+  if (statusType.value === 'error') {
+    return 'form-feedback--error';
+  }
+
+  return 'form-feedback--warning';
+});
+
+const resetForm = () => {
+  form.name = '';
+  form.email = '';
+  form.message = '';
+};
+
+const submitMessage = async () => {
+  statusMessage.value = '';
+  statusType.value = '';
+
+  if (!validateForm()) {
+    return;
+  }
+
+  if (!hasEmailConfig.value) {
+    statusMessage.value = 'Faltan variables de configuración para habilitar el envío.';
+    statusType.value = 'error';
+    return;
+  }
+
+  isSubmitting.value = true;
+
+  try {
+    await emailjs.send(
+      serviceId,
+      templateId,
+      {
+        name: form.name,
+        email: form.email,
+        message: form.message,
+      },
+      publicKey,
+    );
+
+    statusMessage.value = 'Mensaje enviado. Si el proyecto encaja, te responderé a la brevedad.';
+    statusType.value = 'success';
+    resetForm();
+  } catch (error) {
+    console.error(error);
+    statusMessage.value = 'Hubo un problema al enviar el mensaje. Puedes escribirme por LinkedIn mientras tanto.';
+    statusType.value = 'error';
+  } finally {
+    isSubmitting.value = false;
+  }
+};
 </script>
-
-<style scoped>
-.btn-primary {
-    border-color: #007eb3;
-    color: #007eb3;
-}
-
-.spinner:before {
-    border-top-color: #007eb3;
-}
-
-.spinner:after {
-    border-top-color: #003d58;
-    animation-delay: 0.3s;
-}
-
-.btn-primary:hover {
-    color: #fff;
-}
-</style>

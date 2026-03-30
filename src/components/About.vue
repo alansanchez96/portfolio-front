@@ -1,37 +1,41 @@
 <template>
-    <section class="page-section bg-primary" id="about">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h2 class="text-white mt-0">Backend Developer especializado en Laravel</h2>
-                    <hr class="divider divider-light" />
-                    <p class="text-white-75 mb-8">
-                        <strong>APIs, sistemas escalables y soluciones orientadas a negocio</strong>
-                        <br><br>
-                        Desarrollo aplicaciones web backend robustas, integrando <br> <strong>APIs, pasarelas de
-                        pago, autenticación, roles & permisos y lógica de negocio compleja</strong>, <br>
-                        priorizando código limpio, mantenible y seguro.
-                        <br><br>
-                        Trabajo principalmente con <strong>Laravel — MySQL, MongoDB y VueJS</strong>.
-                        <br>Participando en todo el ciclo de
-                        desarrollo: <br>desde el diseño de la arquitectura hasta el 
-                        <strong>despliegue en producción</strong>.
-                        <!-- <br><br>
-                        Me enfoco en crear soluciones bien pensadas, <br> con decisiones técnicas claras y código preparado
-                        para escalar. <br>
-                        Actualmente trabajo en proyectos backend, productos <strong>SaaS</strong> <br> y desafíos donde la arquitectura y la
-                        lógica marcan la diferencia. -->
+  <section class="section-shell" id="about">
+    <div class="container-shell about">
+      <div class="about__story card-surface" v-reveal="0">
+        <p class="section-kicker">{{ about.kicker }}</p>
+        <h2 class="section-title">{{ about.title }}</h2>
+        <p class="section-intro">
+          {{ about.intro }}
+        </p>
 
-                    </p>
-                    <a class="btn btn-light btn-xl" href="#services">Ver stack y proyectos</a>
-                </div>
-            </div>
+        <div class="about__paragraphs">
+          <p v-for="paragraph in about.paragraphs" :key="paragraph">
+            {{ paragraph }}
+          </p>
         </div>
-    </section>
+      </div>
+
+      <div class="about__pillars">
+        <article
+          v-for="(pillar, index) in about.pillars"
+          :key="pillar.title"
+          class="value-card card-surface"
+          v-reveal="index * 100 + 60"
+        >
+          <span class="value-card__index">0{{ index + 1 }}</span>
+          <h3>{{ pillar.title }}</h3>
+          <p>{{ pillar.description }}</p>
+        </article>
+      </div>
+    </div>
+  </section>
 </template>
 
-<script>
-export default {
-    name: 'About'
-}
+<script setup>
+defineProps({
+  about: {
+    type: Object,
+    required: true,
+  },
+});
 </script>

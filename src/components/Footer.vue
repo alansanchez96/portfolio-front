@@ -1,21 +1,24 @@
 <template>
-    <footer class="py-5">
-        <div class="container px-4 px-lg-5">
-            <div class="small text-center text-muted">SALMOS 23:1 «Jehová es mi pastor; nada me faltará.»</div>
-            <div class="small text-center text-primary">Copyright &copy; 2026 — <a
-                    href="https://linkedin.com/in/alansanchez96" class="">Alan Sanchez</a></div>
-        </div>
-    </footer>
+  <footer class="site-footer">
+    <div class="container-shell site-footer__inner">
+      <div>
+        <strong>{{ footer.title }}</strong>
+        <p>{{ footer.description }}</p>
+      </div>
+
+      <p class="site-footer__copyright">
+        Copyright © 2026 <br>
+        SAL 23:1 — El Señor es mi pastor y nada me faltará.
+      </p>
+    </div>
+  </footer>
 </template>
 
-<script>
-export default {
-    name: 'Footer'
-}
+<script setup>
+defineProps({
+  footer: {
+    type: Object,
+    required: true,
+  },
+});
 </script>
-
-<style scoped>
-a {
-    text-decoration: none;
-}
-</style>

@@ -1,24 +1,47 @@
 <template>
-    <section class="page-section bg-dark text-white">
+  <section class="section-shell" id="profile">
+    <div class="container-shell profile">
+      <div class="profile__visual card-surface" v-reveal="0">
+        <img :src="profile.image" :alt="profile.title" class="profile__photo" loading="lazy" />
+        <div class="profile__badge">Disponibilidad para nuevos desafíos</div>
+      </div>
 
-        <div class="container px-4 px-lg-5 text-center">
-            <img src="https://i.ibb.co/mFCzyDRY/Whats-App-Image-2025-12-21-at-9-42-02-PM.jpg" alt="Alan Sanchez"
-                class="mx-auto rounded-circle" style="width: 200px; height: 200px;" border="0">
-            <br>
-            <a class="btn btn-light btn-xl mt-5" :href="url_pdf" target="_blank">
-                ¡Observa mi CV!
-            </a>
+      <div class="profile__content" v-reveal="120">
+        <p class="section-kicker">Quién soy al trabajar</p>
+        <h2 class="section-title">{{ profile.title }}</h2>
+        <p class="section-intro">
+          {{ profile.lead }}
+        </p>
 
+        <ul class="detail-list">
+          <li v-for="item in profile.highlights" :key="item">
+            {{ item }}
+          </li>
+        </ul>
+
+        <div class="profile__actions">
+          <a
+            v-for="action in profile.actions"
+            :key="action.href"
+            :href="action.href"
+            class="button"
+            :class="action.label === 'Ver CV' ? 'button--solid' : 'button--ghost'"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {{ action.label }}
+          </a>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            'url_pdf': 'https://drive.google.com/file/d/1kSZybbLHdshM--ZDI_9Ysy4DBKkjcQnV/view?usp=sharing',
-        }
-    }
-}
+<script setup>
+defineProps({
+  profile: {
+    type: Object,
+    required: true,
+  },
+});
 </script>

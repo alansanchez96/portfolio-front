@@ -1,42 +1,33 @@
 <template>
-  <div id="page-top">
-    <Navbar />
-    <Header />
-    <About />
-    <Conocimientos />
-    <Projects />
-    <Profile />
-    <Contact />
-    <Footer />
-  </div>
+  <main class="portfolio-page">
+    <MouseTrail />
+    <ThemeToggle />
+    <Navbar cta-href="#contact" cta-label="Hablemos" :links="portfolioData.navLinks" />
+    <Header :hero="portfolioData.hero" :stats="portfolioData.heroStats" />
+    <About :about="portfolioData.about" />
+    <Experience :experience="portfolioData.experience" />
+    <Conocimientos
+      :capabilities="portfolioData.capabilities"
+      :stack-groups="portfolioData.stackGroups"
+    />
+    <Projects :projects="portfolioData.projects" />
+    <Profile :profile="portfolioData.profile" />
+    <Contact :contact="portfolioData.contact" />
+    <Footer :footer="portfolioData.footer" />
+  </main>
 </template>
 
-<script>
+<script setup>
 import About from '@/components/About.vue';
-import Header from '@/components/Header.vue';
 import Conocimientos from '@/components/Conocimientos.vue';
-import Navbar from '@/components/Navbar.vue';
-import Projects from '@/components/Projects.vue';
-import Profile from '@/components/Profile.vue';
 import Contact from '@/components/Contact.vue';
+import Experience from '@/components/Experience.vue';
 import Footer from '@/components/Footer.vue';
-
-export default {
-  name: 'Portfolio',
-  components: {
-    About,
-    Header,
-    Conocimientos,
-    Navbar,
-    Projects,
-    Profile,
-    Contact,
-    Footer
-  }
-}
+import Header from '@/components/Header.vue';
+import MouseTrail from '@/components/MouseTrail.vue';
+import Navbar from '@/components/Navbar.vue';
+import Profile from '@/components/Profile.vue';
+import Projects from '@/components/Projects.vue';
+import ThemeToggle from '@/components/ThemeToggle.vue';
+import { portfolioData } from '@/data/portfolio';
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

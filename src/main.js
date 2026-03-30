@@ -1,21 +1,14 @@
 import { createApp } from 'vue';
+
 import App from './App.vue';
 import router from './router';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
-import storage from './storage';
+import revealDirective from './directives/reveal';
 
 import './assets/css/styles.css';
+import './assets/css/portfolio.css';
 
-axios.defaults.baseURL = 'https://dev-alansan-netlify-app.preview-domain.com/';
+const app = createApp(App);
 
-const token = localStorage.getItem('access_token');
+app.directive('reveal', revealDirective);
 
-if (token)
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-
-createApp(App)
-    .use(VueAxios, axios)
-    .use(storage)
-    .use(router)
-    .mount('#app')
+app.use(router).mount('#app');
