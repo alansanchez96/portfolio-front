@@ -1260,15 +1260,20 @@ body.modal-open {
   }
 
   .project-modal__dialog {
+    height: auto;
     max-height: 92vh;
     overflow-y: auto;
   }
 
   .project-modal__content {
+    grid-template-rows: auto auto auto;
+    height: auto;
+    min-height: auto;
     overflow: visible;
   }
 
   .project-modal__story {
+    min-height: auto;
     overflow: visible;
   }
 
