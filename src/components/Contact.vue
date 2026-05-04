@@ -129,7 +129,7 @@ const statusMessage = ref('');
 const statusType = ref('');
 
 const serviceId = process.env.VUE_APP_EMAILJS_SERVICE_ID;
-const templateId = process.env.VUE_APP_EMAILJS_TEMPLATE_ID;
+const templateId = process.env.VUE_APP_EMAILJS_TEMPLATE_ID_CONTACT;
 const publicKey = process.env.VUE_APP_EMAILJS_PUBLIC_KEY;
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
